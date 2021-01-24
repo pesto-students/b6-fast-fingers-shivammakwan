@@ -1,6 +1,8 @@
 import React from "react";
 import Timer from "../../Components/Timer/Timer";
 import { useDataLayerValue } from "../../Context/DataLayer";
+import "./GamePlayer.scss";
+
 export default function GamePlayer() {
   const [
     {
@@ -15,21 +17,29 @@ export default function GamePlayer() {
     dispatch,
   ] = useDataLayerValue();
 
-  const [currentWord, setCurrentWord] = React.useState("");
+  const [currentWord, setCurrentWord] = React.useState([]);
   const [typedWord, setTypedWord] = React.useState("");
   const [typedWordRef, setTypedWordRef] = React.useState("");
   const [timer, setTimer] = React.useState(0);
   const [wordCounts, setWordCounts] = React.useState(0);
   const [fetching, setFetching] = React.useState(false);
+  const [matcher, setMatcher] = React.useState("");
 
   function getWord() {
+    setCurrentWord([]);
     let arrayOfWords = dictionary[level];
     if (arrayOfWords.length > 0) {
       setTypedWord("");
       setWordCounts((prevCount) => prevCount + 1);
       let word = arrayOfWords[Math.floor(Math.random() * arrayOfWords.length)];
       calculateTimer(word);
-      setCurrentWord(word);
+      setTypedWordRef(word);
+      for (const iterator of word) {
+        setCurrentWord((prevWord) => [
+          ...prevWord,
+          { status: 0, char: iterator },
+        ]);
+      }
     }
   }
 
@@ -44,10 +54,24 @@ export default function GamePlayer() {
   function matchWord(e) {
     let typed = e.target.value;
     setTypedWord(typed);
-    if (typed != "" && currentWord.startsWith(typed)) {
-      if (currentWord === typed) getWord();
-    }
-    console.log(e.target.value);
+    console.log(typed);
+    //0=unattempted, 1=passed, 2=failed
+    setCurrentWord((prevArrayOfWords) => {
+      let prev = prevArrayOfWords;
+      for (let index = 0; index < prev.length; index++) {
+        if (index === prev.length - 1 && typed === typedWordRef) {
+          getWord();
+        } else {
+          if (typed[index]) {
+            if (prev[index].char === typed[index]) prev[index].status = 1;
+            else prev[index].status = 2;
+          } else {
+            prev[index].status = 0;
+          }
+        }
+      }
+      return prev;
+    });
   }
 
   React.useEffect(() => {
@@ -65,7 +89,7 @@ export default function GamePlayer() {
         <>
           {/* timer */}
           <div>
-            {currentWord.length > 0 && (
+            {typedWordRef.length > 0 && (
               <Timer
                 totalSeconds={timer}
                 wordCounts={wordCounts}
@@ -79,13 +103,22 @@ export default function GamePlayer() {
             )}
           </div>
           {/* word */}
-          <div>
-            <span>{currentWord}</span>
-          </div>
+          <div>{/* <span>{currentWord}</span> */}</div>
+          {/* <div>{JSON.stringify(currentWord)}</div> */}
           {/* type box */}
-          <ul>
-            {typedWord.split("").map((item, i) => (
-              <li key={item + i}>{item}</li>
+          <ul
+            style={{
+              listStyle: "none",
+              display: "flex",
+              justifyContent: "center",
+              letterSpacing: "1px",
+            }}
+            className={"chars"}
+          >
+            {currentWord.map((item, i) => (
+              <li key={item.char + i} className={"char-" + item.status}>
+                {item.char}
+              </li>
             ))}
           </ul>
           <input autoFocus type="text" onChange={matchWord} value={typedWord} />

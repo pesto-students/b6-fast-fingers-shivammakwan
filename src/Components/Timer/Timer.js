@@ -6,8 +6,8 @@ export default function Timer({ totalSeconds, onTimerEnd, wordCounts }) {
 
   React.useEffect(() => {
     let interval = null;
-    console.log(prevProps.wordCounts, wordCounts);
-    console.log(totalSeconds, seconds);
+    // console.log(prevProps.wordCounts, wordCounts);
+    // console.log(totalSeconds, seconds);
     interval = setInterval(() => {
       setSeconds((prev) => parseFloat((prev + 0.1).toFixed(2)));
     }, 100);

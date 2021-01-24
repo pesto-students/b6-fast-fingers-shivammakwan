@@ -23,7 +23,6 @@ export default function GamePlayer() {
   const [fetching, setFetching] = React.useState(false);
 
   function getWord() {
-    setCurrentWord(null);
     let arrayOfWords = dictionary[level];
     if (arrayOfWords.length > 0) {
       setTypedWord("");

@@ -13,6 +13,8 @@ export default function GamePlayer() {
       playing,
       status,
       dataReceived,
+      totalScoreList,
+      scores,
     },
     dispatch,
   ] = useDataLayerValue();
@@ -24,6 +26,7 @@ export default function GamePlayer() {
   const [wordCounts, setWordCounts] = React.useState(0);
   const [fetching, setFetching] = React.useState(false);
   const [matcher, setMatcher] = React.useState("");
+  const childRef = React.useRef();
 
   function getWord() {
     setCurrentWord([]);
@@ -46,7 +49,7 @@ export default function GamePlayer() {
   function calculateTimer(word) {
     let seconds = word.length / difficultyFactor;
     console.log(seconds);
-    setTimer(seconds > 2 ? seconds : 2);
+    setTimer(seconds > 2 ? parseFloat(seconds.toFixed(1)) : 2);
   }
 
   // Timer value = (Number of letters in the word) / (Difficulty factor)
@@ -60,6 +63,7 @@ export default function GamePlayer() {
       let prev = prevArrayOfWords;
       for (let index = 0; index < prev.length; index++) {
         if (index === prev.length - 1 && typed === typedWordRef) {
+          childRef.current.restartTimer();
           getWord();
         } else {
           if (typed[index]) {
@@ -93,12 +97,25 @@ export default function GamePlayer() {
               <Timer
                 totalSeconds={timer}
                 wordCounts={wordCounts}
-                onTimerEnd={() =>
+                onTimerEnd={() => {
                   dispatch({
                     type: "SET_STATUS",
                     status: "OVER",
-                  })
-                }
+                  });
+                  dispatch({
+                    type: "ADD_SCORE_DATA",
+                    totalScoreList: [
+                      ...totalScoreList,
+                      {
+                        totalScore: Math.round(
+                          scores.reduce((a, b) => a + b, 0)
+                        ),
+                        time: new Date().toISOString(),
+                      },
+                    ],
+                  });
+                }}
+                ref={childRef}
               />
             )}
           </div>
@@ -128,12 +145,22 @@ export default function GamePlayer() {
           <br />
           <br />
           <button
-            onClick={() =>
+            onClick={() => {
               dispatch({
                 type: "SET_STATUS",
                 status: "OVER",
-              })
-            }
+              });
+              dispatch({
+                type: "ADD_SCORE_DATA",
+                totalScoreList: [
+                  ...totalScoreList,
+                  {
+                    totalScore: Math.round(scores.reduce((a, b) => a + b, 0)),
+                    time: new Date().toISOString(),
+                  },
+                ],
+              });
+            }}
           >
             Stop Game
           </button>

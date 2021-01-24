@@ -6,6 +6,7 @@ export default function Login({ onStart }) {
     {
       dictionary,
       difficultyFactor,
+      difficultyFactorTypes,
       playing,
       status,
       dataReceived,
@@ -30,6 +31,10 @@ export default function Login({ onStart }) {
     dispatch({
       type: "SET_LEVEL",
       level: level,
+    });
+    dispatch({
+      type: "SET_FACTOR",
+      difficultyFactor: difficultyFactorTypes[level],
     });
     onStart();
   }
@@ -69,6 +74,7 @@ export default function Login({ onStart }) {
 
   return (
     <div>
+      <h1>Fast Fingers </h1>
       <input
         type="text"
         name="player-name"

@@ -4,6 +4,8 @@ import Login from "./Containers/Login/Login";
 import GamePlayer from "./Containers/GamePlayer/GamePlayer";
 import { useDataLayerValue } from "./Context/DataLayer";
 import GameOver from "./Containers/GameOver/GameOver";
+import Sidebar from "./Components/Sidebar/Sidebar";
+import { Navbar } from "./Components/Navbar/Navbar";
 
 function App() {
   const [{ playerName, status }, dispatch] = useDataLayerValue();
@@ -23,13 +25,22 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Fast Fingers </h1>
       {status === "START" ? (
         <Login onStart={startGame} />
-      ) : status === "PLAYING" ? (
-        <GamePlayer />
       ) : (
-        <GameOver />
+        <div
+          style={{ width: "100%", display: "flex", flexDirection: "column" }}
+        >
+          <Navbar />
+          <div style={{ width: "100%", display: "flex" }}>
+            <div style={{ width: "20%" }}>
+              <Sidebar />
+            </div>
+            <div style={{ width: "60%" }}>
+              {status === "PLAYING" ? <GamePlayer /> : <GameOver />}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

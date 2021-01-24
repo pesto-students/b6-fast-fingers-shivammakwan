@@ -33,7 +33,7 @@ export default function GameOver() {
           });
           dispatch({
             type: "SET_FACTOR",
-            difficultyFactor: 0.01,
+            difficultyFactor: 1,
           });
         }}
       >

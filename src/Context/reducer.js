@@ -1,7 +1,7 @@
 export const initialState = {
   playerName: null,
   level: "EASY", //HARD,MEDIUM
-  difficultyFactor: 0.01,
+  difficultyFactor: 1,
   playing: false,
   status: "START", //OVER,PLAYING
   dictionary: {

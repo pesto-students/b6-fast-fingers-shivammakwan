@@ -69,6 +69,7 @@ export default function Login({ onStart }) {
 
   React.useEffect(() => {
     if (!dataReceived) getDictionary();
+    else setFetching(false);
   }, []);
 
   return (

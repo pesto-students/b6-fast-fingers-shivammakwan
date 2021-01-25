@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import "./App.scss";
 import Login from "./Containers/Login/Login";
 import GamePlayer from "./Containers/GamePlayer/GamePlayer";
 import { useDataLayerValue } from "./Context/DataLayer";

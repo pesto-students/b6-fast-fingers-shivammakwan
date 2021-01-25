@@ -1,3 +1,7 @@
+$primary: #97a4a7;
+$secondary: #000;
+$fontColor: #ff0000;
+
 .App {
   text-align: center;
 }
@@ -35,4 +39,7 @@
   to {
     transform: rotate(360deg);
   }
+}
+.font-primary {
+  color: $fontColor;
 }

@@ -67,7 +67,8 @@ export default function GamePlayer() {
           getWord();
         } else {
           if (typed[index]) {
-            if (prev[index].char === typed[index]) prev[index].status = 1;
+            if (prev[index].char.toUpperCase() === typed[index].toUpperCase())
+              prev[index].status = 1;
             else prev[index].status = 2;
           } else {
             prev[index].status = 0;

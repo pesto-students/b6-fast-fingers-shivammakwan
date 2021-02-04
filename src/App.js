@@ -33,7 +33,7 @@ function App() {
         >
           <Navbar />
           <div style={{ width: "100%", display: "flex" }}>
-            <div style={{ width: "20%" }}>
+            <div style={{ width: "25%" }}>
               <Sidebar />
             </div>
             <div style={{ width: "60%" }}>

@@ -1,6 +1,8 @@
 import React from "react";
 import { useDataLayerValue } from "../../Context/DataLayer";
-
+import "./GameOver.scss";
+import reloadIcon from "../../assets/icons/reload-icon.svg";
+import { MinutesAndSeconds } from "../../Components/MinutesAndSeconds/MinutesAndSeconds";
 export default function GameOver() {
   const [
     { playerName, scores, totalScoreList },
@@ -8,13 +10,16 @@ export default function GameOver() {
   ] = useDataLayerValue();
 
   return (
-    <div>
-      Game Over {playerName} <br />
-      Your score <br />
-      {Math.round(scores.reduce((a, b) => a + b, 0))}s
-      <br />
-      <br />
-      <button
+    <div className="game-over">
+      <span className="l1">GAME OVER!</span> <br />
+      <span className="l2">
+        {scores?.isHighScore ? "New High Score" : "Your Score"}
+      </span>
+      <span className="score">
+        <MinutesAndSeconds totalSeconds={scores?.seconds} />
+      </span>
+      <div
+        className="d-flex justify-content-center align-items-center mt-4 btn"
         onClick={() => {
           dispatch({
             type: "SET_STATUS",
@@ -22,42 +27,18 @@ export default function GameOver() {
           });
           dispatch({
             type: "SET_SCORE",
-            score: [],
+            score: undefined,
           });
         }}
       >
-        Play Again
-      </button>
-      <button
-        onClick={() => {
-          dispatch({
-            type: "SET_STATUS",
-            status: "START",
-          });
-          dispatch({
-            type: "SET_PLAYER",
-            name: "",
-          });
-          dispatch({
-            type: "SET_LEVEL",
-            level: "EASY",
-          });
-          dispatch({
-            type: "SET_FACTOR",
-            difficultyFactor: 1,
-          });
-          dispatch({
-            type: "SET_SCORE",
-            score: [],
-          });
-          dispatch({
-            type: "ADD_SCORE_DATA",
-            totalScoreList: [],
-          });
-        }}
-      >
-        Quit
-      </button>
+        <img src={reloadIcon} style={{ height: "3rem" }} />
+        <span
+          style={{ fontSize: "27px", marginTop: "8px", marginLeft: "20px" }}
+          className="font-primary font-weight-bold"
+        >
+          PLAY AGAIN
+        </span>
+      </div>
     </div>
   );
 }

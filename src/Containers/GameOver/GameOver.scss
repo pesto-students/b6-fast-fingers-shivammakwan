@@ -1,0 +1,16 @@
+.game-over {
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  justify-content: space-evenly;
+  .l1 {
+    font-size: 30px;
+  }
+  .l2 {
+    font-size: 20px;
+  }
+  .score {
+    font-size: 30px;
+  }
+}

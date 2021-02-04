@@ -11,7 +11,7 @@ export const initialState = {
     MEDIUM: [],
   },
   dataReceived: false,
-  scores: [],
+  scores: undefined,
   totalScoreList: [],
 };
 
@@ -36,7 +36,7 @@ const reducer = (state, action) => {
     case "SET_FACTOR":
       return {
         ...state,
-        difficultyFactor: state.difficultyFactor + 0.01,
+        difficultyFactor: action.difficultyFactor,
       };
     case "SET_STATUS":
       return {
@@ -57,12 +57,29 @@ const reducer = (state, action) => {
     case "SET_SCORE":
       return {
         ...state,
-        scores: action.score,
+        scores: action.scores,
       };
     case "ADD_SCORE_DATA":
       return {
         ...state,
         totalScoreList: action.totalScoreList,
+      };
+    case "SET_QUIT_GAME":
+      return {
+        ...state,
+        status: "START",
+        name: "",
+        level: "EASY",
+        difficultyFactor: 1,
+        score: [],
+        totalScoreList: [],
+      };
+    case "SET_GAME_OVER":
+      return {
+        ...state,
+        status: action.status,
+        // totalScoreList: action.totalScoreList,
+        playing: action.playing,
       };
     default:
       return state;

@@ -5,17 +5,7 @@ import "./GamePlayer.scss";
 
 export default function GamePlayer() {
   const [
-    {
-      dictionary,
-      playerName,
-      level,
-      difficultyFactor,
-      playing,
-      status,
-      dataReceived,
-      totalScoreList,
-      scores,
-    },
+    { dictionary, level, difficultyFactor, difficultyFactorTypes },
     dispatch,
   ] = useDataLayerValue();
 
@@ -24,8 +14,6 @@ export default function GamePlayer() {
   const [typedWordRef, setTypedWordRef] = React.useState("");
   const [timer, setTimer] = React.useState(0);
   const [wordCounts, setWordCounts] = React.useState(0);
-  const [fetching, setFetching] = React.useState(false);
-  const [matcher, setMatcher] = React.useState("");
   const childRef = React.useRef();
 
   function getWord() {
@@ -52,8 +40,6 @@ export default function GamePlayer() {
     setTimer(seconds > 2 ? parseFloat(seconds.toFixed(1)) : 2);
   }
 
-  // Timer value = (Number of letters in the word) / (Difficulty factor)
-
   function matchWord(e) {
     let typed = e.target.value;
     setTypedWord(typed);
@@ -62,7 +48,30 @@ export default function GamePlayer() {
     setCurrentWord((prevArrayOfWords) => {
       let prev = prevArrayOfWords;
       for (let index = 0; index < prev.length; index++) {
-        if (index === prev.length - 1 && typed === typedWordRef) {
+        if (
+          index === prev.length - 1 &&
+          typed.toUpperCase() === typedWordRef.toUpperCase()
+        ) {
+          //increase difficulty on success match
+          dispatch({
+            type: "SET_FACTOR",
+            difficultyFactor: difficultyFactor + 0.01,
+          });
+          //check for limits
+          if (
+            difficultyFactor >= difficultyFactorTypes["MEDIUM"] &&
+            difficultyFactor < difficultyFactorTypes["HARD"]
+          )
+            dispatch({
+              type: "SET_LEVEL",
+              level: "MEDIUM",
+            });
+          else if (difficultyFactor >= difficultyFactorTypes["HARD"])
+            dispatch({
+              type: "SET_LEVEL",
+              level: "HARD",
+            });
+
           childRef.current.restartTimer();
           getWord();
         } else {
@@ -85,88 +94,47 @@ export default function GamePlayer() {
 
   return (
     <div>
-      {fetching ? (
-        <>
-          {/* add loader here*/}
-          <h1>Fetching</h1>
-        </>
-      ) : (
-        <>
-          {/* timer */}
-          <div>
-            {typedWordRef.length > 0 && (
-              <Timer
-                totalSeconds={timer}
-                wordCounts={wordCounts}
-                onTimerEnd={() => {
-                  dispatch({
-                    type: "SET_STATUS",
-                    status: "OVER",
-                  });
-                  dispatch({
-                    type: "ADD_SCORE_DATA",
-                    totalScoreList: [
-                      ...totalScoreList,
-                      {
-                        totalScore: Math.round(
-                          scores.reduce((a, b) => a + b, 0)
-                        ),
-                        time: new Date().toISOString(),
-                      },
-                    ],
-                  });
-                }}
-                ref={childRef}
-              />
-            )}
-          </div>
-          {/* word */}
-          <div>{/* <span>{currentWord}</span> */}</div>
-          {/* <div>{JSON.stringify(currentWord)}</div> */}
-          {/* type box */}
-          <ul
-            style={{
-              listStyle: "none",
-              display: "flex",
-              justifyContent: "center",
-              letterSpacing: "1px",
-            }}
-            className={"chars"}
-          >
-            {currentWord.map((item, i) => (
-              <li key={item.char + i} className={"char-" + item.status}>
-                {item.char}
-              </li>
-            ))}
-          </ul>
-          <input autoFocus type="text" onChange={matchWord} value={typedWord} />
-
-          <br />
-          <br />
-          <br />
-          <br />
-          <button
-            onClick={() => {
+      {/* timer */}
+      <div>
+        {typedWordRef.length > 0 && (
+          <Timer
+            totalSeconds={timer}
+            wordCounts={wordCounts}
+            onTimerEnd={() => {
               dispatch({
                 type: "SET_STATUS",
                 status: "OVER",
               });
-              dispatch({
-                type: "ADD_SCORE_DATA",
-                totalScoreList: [
-                  ...totalScoreList,
-                  {
-                    totalScore: Math.round(scores.reduce((a, b) => a + b, 0)),
-                    time: new Date().toISOString(),
-                  },
-                ],
-              });
             }}
-          >
-            Stop Game
-          </button>
-        </>
-      )}
+            ref={childRef}
+          />
+        )}
+      </div>
+      {/* word */}
+      <ul
+        style={{
+          listStyle: "none",
+          display: "flex",
+          justifyContent: "center",
+          letterSpacing: "1px",
+          padding: 0,
+        }}
+        className={"chars mt-5"}
+      >
+        {currentWord.map((item, i) => (
+          <li key={item.char + i} className={"char-" + item.status}>
+            {item.char}
+          </li>
+        ))}
+      </ul>
+      {/* type box */}
+      <input
+        autoFocus
+        type="text"
+        onChange={matchWord}
+        value={typedWord}
+        className="text-uppercase custom-input w-60"
+      />
     </div>
   );
 }

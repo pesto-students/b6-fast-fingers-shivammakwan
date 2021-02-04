@@ -1,9 +1,13 @@
 $primary: #97a4a7;
 $secondary: #000;
-$fontColor: #ff0000;
+$fontColor: #ff5155;
 
 .App {
   text-align: center;
+  // background-image: url(./assets/fast-fingers-background.png);
+  // height: 100vh;
+  // background-repeat: repeat;
+  // background-size: contain;
 }
 
 .App-logo {
@@ -42,4 +46,24 @@ $fontColor: #ff0000;
 }
 .font-primary {
   color: $fontColor;
+}
+
+// custom classes
+.font-40 {
+  font-size: 40px;
+}
+.font-30 {
+  font-size: 25px;
+}
+.bg-red {
+  background-color: $fontColor;
+}
+
+.custom-input {
+  font-size: 27px;
+  height: 60px;
+  border-radius: 10px;
+  background: #bfbdbd;
+  padding: 10px 15px 10px 15px;
+  text-transform: uppercase;
 }

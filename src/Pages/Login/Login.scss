@@ -56,3 +56,31 @@
   padding: 0 !important;
   margin: 0 !important;
 }
+.game-subtitle {
+  display: flex;
+}
+.font-28 {
+  font-size: 28px;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .game-subtitle {
+    display: block;
+  }
+  .font-30 {
+    font-size: 16px;
+  }
+  .error-text {
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .custom-input {
+    font-size: 17px !important;
+  }
+  .custom-select {
+    font-size: 17px;
+  }
+
+  .font-28 {
+    font-size: 16px;
+  }
+}

@@ -1,15 +1,32 @@
 import React from "react";
-import { useDataLayerValue } from "../../Context/DataLayer";
 import gamepadIcon from "../../assets/icons/gamepad-icon.svg";
 import personIcon from "../../assets/icons/person-icon.svg";
 import { MinutesAndSeconds } from "../MinutesAndSeconds/MinutesAndSeconds";
-import { ScoreTimer } from "../ScoreTimer/ScoreTimer";
+import { useLocation } from "react-router-dom";
 
-export const Navbar = () => {
-  const [
-    { playerName, level, difficultyFactor, scores, status },
-    dispatch,
-  ] = useDataLayerValue();
+export const Navbar = ({ onStopTimer, playerName, level }) => {
+  const location = useLocation();
+  const [seconds, setSeconds] = React.useState(0);
+  let timerInterval = React.useRef(null);
+
+  React.useEffect(() => {
+    timerInterval.current = setInterval(() => {
+      setSeconds((prev) => parseFloat((prev + 1).toFixed(2)));
+    }, 1000);
+
+    let pathname = location.pathname.split("?")[0];
+    if (pathname === "/player/over") {
+      onStopTimer(seconds);
+      clearInterval(timerInterval.current);
+    } else {
+      setSeconds(0);
+    }
+
+    return () => {
+      clearInterval(timerInterval.current);
+    };
+  }, [location.pathname]);
+
   return (
     <div
       style={{
@@ -39,8 +56,7 @@ export const Navbar = () => {
           FAST FINGERS
         </span>
         <span className="font-primary font-30 text-uppercase ml-3">
-          {status === "PLAYING" && <>SCORE -&nbsp;</>}
-          <ScoreTimer />
+          <MinutesAndSeconds totalSeconds={seconds} />
         </span>
       </div>
     </div>

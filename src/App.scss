@@ -67,3 +67,28 @@ $fontColor: #ff5155;
   padding: 10px 15px 10px 15px;
   text-transform: uppercase;
 }
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .sidebar__game__over {
+    position: absolute;
+    left: -280px;
+    transition: left 0.3s;
+  }
+  .font-30 {
+    font-size: 16px;
+  }
+}
+.blink {
+  color: $primary;
+  animation: blink 1s linear infinite;
+}
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

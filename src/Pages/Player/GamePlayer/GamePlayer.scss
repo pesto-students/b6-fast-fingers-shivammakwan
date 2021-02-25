@@ -2,6 +2,11 @@
   font-size: 40px;
   font-weight: bold;
   text-transform: uppercase;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  letter-spacing: 1px;
+  padding: 0;
   .char-0 {
     color: #b5acac;
   }

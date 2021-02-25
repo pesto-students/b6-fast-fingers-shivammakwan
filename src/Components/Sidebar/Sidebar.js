@@ -1,32 +1,38 @@
 import React from "react";
-import { useDataLayerValue } from "../../Context/DataLayer";
-import "./Sidebar.scss";
 import crossIcon from "../../assets/icons/cross-icon.svg";
 import homeIcon from "../../assets/icons/home-icon.svg";
 import { MinutesAndSeconds } from "../MinutesAndSeconds/MinutesAndSeconds";
+import { useHistory, useLocation } from "react-router-dom";
+import "./Sidebar.scss";
 
-export default function Sidebar() {
-  const [{ totalScoreList, scores, status }, dispatch] = useDataLayerValue();
+const Sidebar = ({ scoreList }) => {
   const [highScore, setHighScore] = React.useState(undefined);
+  const [showQuit, setShowQuit] = React.useState(false);
+  const history = useHistory();
+  const location = useLocation();
 
   React.useEffect(() => {
-    if (totalScoreList.length > 0) {
-      let score = Math.max(...totalScoreList.map((score) => score.totalScore));
-      let game = totalScoreList.find((item) => item.totalScore === score);
+    if (scoreList.length > 0) {
+      let score = Math.max(...scoreList.map((score) => score.totalScore));
+      let game = scoreList.find((item) => item.totalScore === score);
       setHighScore({
         ...game,
       });
     }
-  }, [totalScoreList]);
+    if (location.pathname === "/player/over") setShowQuit(true);
+    else setShowQuit(false);
+  }, [scoreList, location.pathname]);
 
   return (
     <div>
-      <div className="score-list mt-2">
+      <div className="score__list mt-2">
         <h3 className="mt-2">SCORE BOARD</h3>
         <ul>
-          {totalScoreList.length == 0 && <li>No scores available</li>}
-          {totalScoreList.length > 0 &&
-            totalScoreList.map((score, index) => (
+          {scoreList.length === 0 && (
+            <li className="no__data">No scores available</li>
+          )}
+          {scoreList.length > 0 &&
+            scoreList.map((score, index) => (
               <li key={score.totalScore + "0" + index}>
                 <div>
                   Game {score.game} -&nbsp;
@@ -48,15 +54,11 @@ export default function Sidebar() {
           )}
         </ul>
       </div>
-      {status != "OVER" && (
+      {!showQuit && (
         <div
-          className="d-flex justify-content-center align-items-center mt-4 btn"
+          className="d-flex justify-content-center align-items-center mt-4 btn w-max"
           onClick={() => {
-            dispatch({
-              type: "SET_GAME_OVER",
-              status: "OVER",
-              playing: false,
-            });
+            history.push({ pathname: `/player/over`, search: location.search });
           }}
         >
           <img src={crossIcon} style={{ height: "4rem" }} />
@@ -68,13 +70,11 @@ export default function Sidebar() {
           </span>
         </div>
       )}
-      {status === "OVER" && (
+      {showQuit && (
         <div
           className="d-flex justify-content-center align-items-center mt-4 btn"
           onClick={() => {
-            dispatch({
-              type: "SET_QUIT_GAME",
-            });
+            history.push(`/`);
           }}
         >
           <img src={homeIcon} style={{ height: "3rem" }} />
@@ -88,4 +88,5 @@ export default function Sidebar() {
       )}
     </div>
   );
-}
+};
+export default Sidebar;

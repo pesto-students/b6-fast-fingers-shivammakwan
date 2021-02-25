@@ -1,9 +1,11 @@
-.game-over {
+.game__over {
   color: #ffffff;
   display: flex;
   flex-direction: column;
   height: 400px;
   justify-content: space-evenly;
+  width: max-content;
+  margin: auto;
   .l1 {
     font-size: 30px;
   }

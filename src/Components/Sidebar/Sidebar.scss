@@ -1,6 +1,6 @@
 @import "../../App.scss";
 
-.score-list {
+.score__list {
   border-radius: 10px;
   border: 3px solid $fontColor;
   height: 70vh;
@@ -12,6 +12,9 @@
   ul {
     list-style-type: none;
     padding: 0;
+    .no__data {
+      font-size: 10px;
+    }
     li {
       display: flex;
       flex-direction: column;
@@ -23,4 +26,8 @@
       background: black;
     }
   }
+}
+.w-max {
+  width: max-content;
+  margin-left: -40px;
 }

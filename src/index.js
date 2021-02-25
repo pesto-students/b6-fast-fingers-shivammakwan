@@ -4,14 +4,10 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { DataLayer } from "./Context/DataLayer";
-import reducer, { initialState } from "./Context/reducer";
 
 ReactDOM.render(
   <React.StrictMode>
-    <DataLayer initialState={initialState} reducer={reducer}>
-      <App />
-    </DataLayer>
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );

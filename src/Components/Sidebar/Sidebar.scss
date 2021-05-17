@@ -1,0 +1,33 @@
+@import "../../App.scss";
+
+.score__list {
+  border-radius: 10px;
+  border: 3px solid $fontColor;
+  height: 70vh;
+  overflow: auto;
+  h3 {
+    font-size: 20px;
+    color: $fontColor;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+    .no__data {
+      font-size: 10px;
+    }
+    li {
+      display: flex;
+      flex-direction: column;
+      color: white;
+    }
+    .best-score {
+      position: sticky;
+      bottom: 0;
+      background: black;
+    }
+  }
+}
+.w-max {
+  width: max-content;
+  margin-left: -40px;
+}

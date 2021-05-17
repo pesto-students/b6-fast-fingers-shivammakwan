@@ -1,0 +1,86 @@
+.subtext {
+  border-right: 5px;
+}
+.w-30 {
+  width: 30%;
+}
+
+.custom-select-parent {
+  position: relative;
+  &:after {
+    position: absolute;
+    content: "\25BC";
+    top: 45px;
+    right: 25px;
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+    border-color: #fff transparent transparent transparent;
+    z-index: -1;
+  }
+}
+.custom-select {
+  font-size: 30px;
+  height: 60px;
+  border-radius: 10px;
+  background: none;
+  padding: 8px;
+  text-transform: uppercase;
+  color: #bfbdbd;
+  border: 2px solid #bfbdbd;
+  -moz-appearance: none; /* Firefox */
+  -webkit-appearance: none; /* Safari and Chrome */
+  appearance: none;
+  option {
+    background-color: #bfbdbd;
+    color: #848484;
+    padding: 50px;
+    font-size: 20px;
+    border-radius: 10px;
+    &:hover {
+      color: #fff !important;
+      background-color: #686868 !important;
+    }
+  }
+  &:hover {
+    outline: none;
+    border: 1px solid #bbb;
+  }
+}
+* {
+  outline: none;
+}
+.subtitle {
+  font-size: xx-small;
+  line-height: 30px;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.game-subtitle {
+  display: flex;
+}
+.font-28 {
+  font-size: 28px;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  .game-subtitle {
+    display: block;
+  }
+  .font-30 {
+    font-size: 16px;
+  }
+  .error-text {
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .custom-input {
+    font-size: 17px !important;
+  }
+  .custom-select {
+    font-size: 17px;
+  }
+
+  .font-28 {
+    font-size: 16px;
+  }
+}

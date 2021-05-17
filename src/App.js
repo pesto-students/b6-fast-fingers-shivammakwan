@@ -1,10 +1,16 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import Routes from "./Routes/Routes";
+import "./App.scss";
 
 function App() {
+  React.useEffect(() => {}, []);
+
   return (
     <div className="App">
-      <h1>Fast Fingers </h1>
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
     </div>
   );
 }

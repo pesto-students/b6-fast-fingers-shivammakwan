@@ -1,6 +1,6 @@
 # Live Demo Netlify Link
 
-[https://b6-fast-fingers-game-shivammakwan.netlify.app/](https://b6-fast-fingers-game-shivammakwan.netlify.app/)
+[https://fast-fingers-game-shivammakwan.netlify.app/](https://fast-fingers-game-shivammakwan.netlify.app/)
 
 # Fast Fingers
 
